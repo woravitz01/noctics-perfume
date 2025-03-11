@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pina Colada - Noctics Perfume</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            line-height: 1.5;
+            text-align: justify;
+            background: linear-gradient(135deg, #1a1a1a, #292929);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        .purchase-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .quantity-selector input {
+            width: 60px;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid gold;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .btn {
+            background: gold;
+            color: black;
+            padding: 14px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #ffd700;
+            box-shadow: 0 0 15px gold;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="assets/Noctics_Pina_Colada_1080p.jpg" alt="Pina Colada" class="product-image">
+        <h1>Pina Colada</h1>
+        <div class="description">
+            <p><strong>Pina Colada</strong> คือการเดินทางสู่ <strong>เกาะสวรรค์แห่งความหอม</strong> ที่ผสมผสานความสดชื่นของ <strong>สับปะรดฉ่ำหวานและมะพร้าวครีมมี่</strong> เข้ากับความมีชีวิตชีวาของ <strong>เบอร์กาม็อต</strong> ให้ความรู้สึกเหมือนค็อกเทลสุดโปรดที่จิบในวันหยุดริมชายหาด 🌴✨</p>
+            <p>🌿 <strong>กลิ่นกลาง</strong> นำเสนอกลิ่นอายของ <strong>ดอกส้มและวานิลลาอ่อนละมุน</strong> ผสานกับความหอมหวานของ <strong>น้ำผึ้งแท้</strong> เพิ่มมิติที่เย้ายวนและน่าหลงใหล</p>
+            <p>🌙 <strong>ปิดท้ายด้วยความอบอุ่น</strong> ของ <strong>ไม้จันทน์หอม, มัสค์ และคาราเมลละมุน</strong> ที่ช่วยให้กลิ่นติดทนนาน เหมือนแสงอาทิตย์ยามเย็นที่ส่องกระทบผิวน้ำ 🌊</p>
+            <p>💛 <strong>รังสรรค์เพื่อผู้มีรสนิยม:</strong></p>
+            <ul>
+                <li>ผู้ที่หลงใหลกลิ่นหอม <strong>สดชื่นแต่ละมุน</strong> มีความเป็น <strong>Tropical Chic</strong></li>
+                <li>คนที่ต้องการ <strong>เสริมเสน่ห์และเพิ่มความสดใส</strong> ในทุกวัน</li>
+                <li>ใส่ได้ทั้งกลางวันและกลางคืน เพิ่มพลังบวกให้ทุกโมเมนต์</li>
+            </ul>
+            <p><strong>Pina Colada</strong>... ความหอมที่พาคุณล่องลอยไปยังเกาะสวรรค์แห่งรัตติกาล ✨🍹</p>
+        </div>
+        
+        <div class="purchase-container">
+            <div class="quantity-selector">
+                <label for="quantity">จำนวน:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+            </div>
+            <button class="btn" onclick="addToCart()">เพิ่มในตะกร้า</button>
+        </div>
+        
+        <div class="btn-container">
+            <a href="shop.html" class="btn" style="background: gray; color: white;">สำรวจสินค้าเพิ่มเติม</a>
+            <a href="cart.html" class="btn" style="background: #b28e4a; color: white; padding: 14px 30px; font-size: 1.2rem; border-radius: 30px; box-shadow: 0 4px 20px rgba(178, 142, 74, 0.5); text-decoration: none;">ตรวจสอบสินค้าของคุณ</a>
+        </div>
+    </div>
+    
+    <script>
+        function addToCart() {
+            let quantity = document.getElementById("quantity").value;
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            
+            let product = {
+                name: "Pina Colada",
+                quantity: parseInt(quantity)
+            };
+            
+            let existingProduct = cart.find(item => item.name === product.name);
+            if (existingProduct) {
+                existingProduct.quantity += product.quantity;
+            } else {
+                cart.push(product);
+            }
+            
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert("คุณได้เลือก Pina Colada " + quantity + " ขวด");
+        }
+    </script>
+</body>
+</html>

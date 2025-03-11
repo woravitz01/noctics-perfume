@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Lagoon - Noctics Perfume</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            line-height: 1.5;
+            text-align: justify;
+            background: linear-gradient(135deg, #1a1a1a, #292929);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        .purchase-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .quantity-selector input {
+            width: 60px;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid gold;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .btn {
+            background: gold;
+            color: black;
+            padding: 14px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #ffd700;
+            box-shadow: 0 0 15px gold;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="assets/Noctics_Blue_Lagoon_1080p.jpg" alt="Blue Lagoon" class="product-image">
+        <h1>Blue Lagoon</h1>
+        <div class="description">
+            <p><strong>Blue Lagoon</strong> คือการผสมผสานอย่างลงตัวระหว่างความสดชื่นและความสะอาด กลิ่นหอมสดชื่นจาก <strong>เลม่อน</strong> และ <strong>เบอร์กาม็อต</strong> ที่เสริมสร้างความมีชีวิตชีวา และ <strong>ส้มแมนดาริน</strong> ที่เพิ่มความหรูหราและความเปล่งประกายให้กับทุกช่วงเวลา 🌿✨</p>
+            <p>🌿 <strong>กลิ่นกลาง</strong> ถ่ายทอดความหรูหราอย่างลงตัวผ่านกลิ่นหอมละมุนจาก <strong>ลาเวนเดอร์ที่แสนอบอุ่น</strong> และ <strong>ดอกมะลิหอมหวาน</strong> ที่เพิ่มสัมผัสอ่อนโยนและความสดชื่นอย่างเต็มรูปแบบด้วยสไตล์ที่ไม่เหมือนใคร</p>
+            <p>🌙 <strong>เสน่ห์สุดท้าย</strong> ปิดท้ายด้วยการสัมผัสของ <strong>ไม้หรูหราที่เพิ่มมิติความลึกซึ้ง</strong> และ <strong>มัสค์เนื้อนุ่ม</strong> ที่มอบความหอมยาวนานและตราตรึงในทุกสัมผัส</p>
+            <p>💛 <strong>รังสรรค์เพื่อผู้มีรสนิยม:</strong></p>
+            <ul>
+                <li>ผู้ที่หลงใหลในกลิ่นหอม <strong>สดชื่นและสะอาด</strong> สำหรับทุกวัน</li>
+                <li>เหมาะสำหรับการเริ่มต้นวันใหม่ ด้วยความรู้สึกที่ <strong>โปร่งเบา</strong></li>
+                <li>ใช้ได้ทั้งกลางวันและกลางคืน เพิ่มความสดชื่นให้ทุกช่วงเวลา</li>
+            </ul>
+            <p><strong>Blue Lagoon</strong>... ความหอมที่สะท้อนความสดชื่นจากธรรมชาติและความสบายใจ 🍃🌊</p>
+        </div>
+        
+        <div class="purchase-container">
+            <div class="quantity-selector">
+                <label for="quantity">จำนวน:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+            </div>
+            <button class="btn" onclick="addToCart()">เพิ่มในตะกร้า</button>
+        </div>
+        
+        <div class="btn-container">
+            <a href="shop.html" class="btn" style="background: gray; color: white;">สำรวจสินค้าเพิ่มเติม</a>
+            <a href="cart.html" class="btn" style="background: #b28e4a; color: white; padding: 14px 30px; font-size: 1.2rem; border-radius: 30px; box-shadow: 0 4px 20px rgba(178, 142, 74, 0.5); text-decoration: none;">ตรวจสอบสินค้าของคุณ</a>
+        </div>
+    </div>
+    
+    <script>
+        function addToCart() {
+            let quantity = document.getElementById("quantity").value;
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            
+            let product = {
+                name: "Blue Lagoon",
+                quantity: parseInt(quantity)
+            };
+            
+            let existingProduct = cart.find(item => item.name === product.name);
+            if (existingProduct) {
+                existingProduct.quantity += product.quantity;
+            } else {
+                cart.push(product);
+            }
+            
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert("คุณได้เลือก Blue Lagoon " + quantity + " ขวด");
+        }
+    </script>
+</body>
+</html>

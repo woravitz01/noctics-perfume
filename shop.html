@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noctics Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .product {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .product:hover {
+            box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .product img:hover {
+            transform: scale(1.05);
+        }
+
+        .product h2 {
+            font-size: 1.4rem;
+            margin: 10px 0;
+        }
+
+        .product p {
+            font-size: 0.95rem;
+            flex-grow: 1;
+            margin-bottom: 15px; /* เพิ่มระยะห่างจากปุ่ม */
+        }
+
+        .btn {
+            background: gold;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: auto; /* ดันปุ่มไปอยู่ด้านล่างสุดของการ์ด */
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #ffd700;
+            box-shadow: 0 0 10px gold;
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            background: #e5c100;
+            box-shadow: 0 0 5px gold;
+            transition: 0.1s;
+        }
+
+        /* Responsive: แสดง 2 ชิ้นต่อแถวในแท็บเล็ต */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Responsive: แสดง 1 ชิ้นต่อแถวในมือถือ */
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>ค้นหากลิ่นที่เป็นตัวคุณ</h1>
+    <div class="container">
+        <div class="product">
+            <img src="assets/Noctics_Pina_Colada_1080p.jpg" alt="Pina Colada">
+            <h2>Pina Colada</h2>
+            <p>สดชื่นละมุน ชวนหลงใหลแบบทรอปิคอล</p>
+            <a href="product_pina_colada.html" class="btn">ดูรายละเอียด</a>
+        </div>
+        <div class="product">
+            <img src="assets/Noctics_Espresso_Martini_1080p.jpg" alt="Espresso Martini">
+            <h2>Espresso Martini</h2>
+            <p>หอมเข้มข้น อบอุ่น มีเสน่ห์</p>
+            <a href="product_espresso_martini.html" class="btn">ดูรายละเอียด</a>
+        </div>
+        <div class="product">
+            <img src="assets/Noctics_Blue_Lagoon_1080p.jpg" alt="Blue Lagoon">
+            <h2>Blue Lagoon</h2>
+            <p>สดชื่น โปร่งเบา หอมสะอาดสไตล์ซิตรัส</p>
+            <a href="product_blue_lagoon.html" class="btn">ดูรายละเอียด</a>
+        </div>
+        <div class="product">
+            <img src="assets/Noctics_Sangria_Rouge_1080p.jpg" alt="Sangria Rouge">
+            <h2>Sangria Rouge</h2>
+            <p>หอมหวาน เย้ายวน ดั่งไวน์แดงชั้นดี</p>
+            <a href="product_sangria_rouge.html" class="btn">ดูรายละเอียด</a>
+        </div>
+        <div class="product">
+            <img src="assets/Noctics_Margarita_Verde_1080p.jpg" alt="Margarita Verde">
+            <h2>Margarita Verde</h2>
+            <p>สดชื่น ซาบซ่า ด้วยกลิ่นซิตรัสทะเล</p>
+            <a href="product_margarita_verde.html" class="btn">ดูรายละเอียด</a>
+        </div>
+        <div class="product">
+            <img src="assets/Noctics_Midnight_Mojito_1080p.jpg" alt="Midnight Mojito">
+            <h2>Midnight Mojito</h2>
+            <p>สดใส บางเบา แต่ลึกล้ำและชวนหลงใหล</p>
+            <a href="product_midnight_mojito.html" class="btn">ดูรายละเอียด</a>
+        </div>
+    </div>
+</body>
+</html>

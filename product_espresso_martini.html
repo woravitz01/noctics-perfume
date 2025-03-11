@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espresso Martini - Noctics Perfume</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            line-height: 1.5;
+            text-align: justify;
+            background: linear-gradient(135deg, #1a1a1a, #292929);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        .purchase-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .quantity-selector input {
+            width: 60px;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid gold;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .btn {
+            background: gold;
+            color: black;
+            padding: 14px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #ffd700;
+            box-shadow: 0 0 15px gold;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="assets/Noctics_Espresso_Martini_1080p.jpg" alt="Espresso Martini" class="product-image">
+        <h1>Espresso Martini</h1>
+        <div class="description">
+            <p><strong>Espresso Martini</strong> คือนิยามแห่งความหรูหราสำหรับผู้ที่หลงใหลในเสน่ห์ของค่ำคืน กลิ่นอันเข้มข้นของ <strong>กาแฟคั่วบดสดใหม่</strong> ผสานกับสัมผัส <strong>อัลมอนด์นุ่มนวล</strong> และความลุ่มลึกของ <strong>บรั่นดีชั้นดี</strong> มอบความรู้สึกลึกลับและน่าหลงใหลอย่างแท้จริง☕✨</p>
+            <p>🌿 <strong>หัวใจของกลิ่น</strong> สะท้อนความหรูหราด้วย <strong>วานิลลาเนียนนุ่ม</strong> และ <strong>คาราเมลละมุนละไม</strong> ที่เติมเต็มมิติแห่งความอบอุ่นและเย้ายวนใจ</p>
+            <p>🌙 <strong>ปิดท้ายอย่างสมบูรณ์แบบ</strong> ด้วย <strong>ไม้ซีดาร์อันหรูหรา</strong> ผสานกับ <strong>ถั่วทองก้า</strong> และ <strong>มัสค์เนื้อเนียน</strong> สร้างเสน่ห์ที่เย้ายวนและตราตรึง</p>
+            <p>💛 <strong>รังสรรค์เพื่อผู้มีรสนิยม:</strong></p>
+            <ul>
+                <li>ผู้ที่หลงใหลในกลิ่นหอม <strong>เข้มข้นและมีเสน่ห์</strong></li>
+                <li>เหมาะสำหรับค่ำคืนสุดพิเศษที่ต้องการ <strong>สร้างความประทับใจ</strong></li>
+                <li>เพิ่มความมั่นใจและความลึกลับให้กับทุกการพบปะ</li>
+            </ul>
+            <p><strong>Espresso Martini</strong>... ความหอมลึกซึ้งที่สะท้อนถึงความหรูหราและเสน่ห์✨🍸</p>
+        </div>
+        
+        <div class="purchase-container">
+            <div class="quantity-selector">
+                <label for="quantity">จำนวน:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+            </div>
+            <button class="btn" onclick="addToCart()">เพิ่มในตะกร้า</button>
+        </div>
+        
+        <div class="btn-container">
+            <a href="shop.html" class="btn" style="background: gray; color: white;">สำรวจสินค้าเพิ่มเติม</a>
+            <a href="cart.html" class="btn" style="background: #b28e4a; color: white; padding: 14px 30px; font-size: 1.2rem; border-radius: 30px; box-shadow: 0 4px 20px rgba(178, 142, 74, 0.5); text-decoration: none;">ตรวจสอบสินค้าของคุณ</a>
+        </div>
+    </div>
+    
+    <script>
+        function addToCart() {
+            let quantity = document.getElementById("quantity").value;
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            
+            let product = {
+                name: "Espresso Martini",
+                quantity: parseInt(quantity)
+            };
+            
+            let existingProduct = cart.find(item => item.name === product.name);
+            if (existingProduct) {
+                existingProduct.quantity += product.quantity;
+            } else {
+                cart.push(product);
+            }
+            
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert("คุณได้เลือก Espresso Martini " + quantity + " ขวด");
+        }
+    </script>
+</body>
+</html>

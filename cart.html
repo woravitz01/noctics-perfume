@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Noctics Perfume</title>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .cart-items {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #1a1a1a;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #292929;
+            border-radius: 10px;
+            align-items: center;
+        }
+        .btn {
+            background: gold;
+            color: black;
+            padding: 14px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #ffd700;
+            box-shadow: 0 0 15px gold;
+            transform: scale(1.05);
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .delete-btn, .modify-btn {
+            background: red;
+            padding: 5px 15px;
+            font-size: 1rem;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .delete-btn:hover, .modify-btn:hover {
+            background: darkred;
+            transform: scale(1.05);
+        }
+        .modify-btn {
+            background: #4CAF50; /* สีเขียวสำหรับปุ่มเพิ่ม/ลด */
+        }
+        .modify-btn:hover {
+            background: #45a049;
+        }
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quantity-container input {
+            width: 60px; /* ปรับให้ช่องตัวเลขมีขนาดเท่ากัน */
+            height: 40px; /* เพิ่มความสูงให้ช่องตัวเลขเท่ากัน */
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid gold;
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        /* เพิ่มความเหมาะสมให้กับมือถือ */
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .cart-item span {
+                flex-grow: 1;
+                text-align: left;
+            }
+
+            .quantity-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .btn-container {
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 20px;
+            }
+            .cart-items {
+                padding: 10px;
+            }
+        }
+
+        /* เพิ่มความเหมาะสมกับหน้าจอมือถือที่มีขนาดเล็กกว่า */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            .quantity-container input {
+                width: 50px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>รายการสั่งซื้อ</h1>
+        <div class="cart-items" id="cart-items">
+            <!-- ข้อมูลสินค้าจะถูกเพิ่มที่นี่ -->
+        </div>
+        
+        <div>
+            <a href="shop.html" class="btn" style="background: gray; color: white;">เลือกสินค้าต่อ</a>
+            <a href="checkout.html" class="btn" style="background: gold; color: black;">ชำระทันที</a>        
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชั่นเพื่อดึงข้อมูลจาก localStorage และแสดงสินค้าในตะกร้า
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartItemsContainer = document.getElementById("cart-items");
+            cartItemsContainer.innerHTML = ''; // ล้างข้อมูลเก่าก่อนแสดงใหม่
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<p>ตะกร้าสินค้าของคุณยังว่างอยู่</p>";
+                return;
+            }
+
+            // แสดงสินค้าทั้งหมดในตะกร้า
+            cart.forEach((item, index) => {
+                let itemDiv = document.createElement('div');
+                itemDiv.classList.add('cart-item');
+                itemDiv.innerHTML = `
+                    <span><strong>${item.name}</strong></span>
+                    <div class="quantity-container">
+                        <button class="modify-btn" onclick="modifyQuantity(${index}, 'decrease')">-</button>
+                        <input type="number" value="${item.quantity}" min="1" readonly>
+                        <button class="modify-btn" onclick="modifyQuantity(${index}, 'increase')">+</button>
+                    </div>
+                    <button class="delete-btn" onclick="removeItem(${index})">นำสินค้าออก</button>
+                `;
+                cartItemsContainer.appendChild(itemDiv);
+            });
+        }
+
+        // ฟังก์ชั่นลบสินค้าจากตะกร้า
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1); // ลบสินค้าจากตำแหน่งที่ระบุ
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart(); // โหลดตะกร้าใหม่หลังจากการลบ
+        }
+
+        // ฟังก์ชั่นเพิ่ม/ลดจำนวนสินค้า
+        function modifyQuantity(index, action) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let item = cart[index];
+
+            if (action === 'increase') {
+                item.quantity += 1;
+            } else if (action === 'decrease' && item.quantity > 1) {
+                item.quantity -= 1;
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart(); // โหลดตะกร้าใหม่หลังจากการเพิ่ม/ลดจำนวน
+        }
+
+        // ฟังก์ชั่นสำหรับไปที่หน้าชำระเงิน
+        function goToCheckout() {
+            // กำหนดให้ลิงก์ไปยังหน้า checkout.html
+            window.location.href = 'checkout.html'; // เปลี่ยนไปยังหน้า checkout.html
+        }
+
+        // โหลดตะกร้าทันทีที่หน้าโหลด
+        window.onload = loadCart;
+    </script>
+</body>
+</html>
