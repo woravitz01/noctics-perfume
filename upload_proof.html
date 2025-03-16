@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แจ้งการโอนเงิน - Noctics Perfume</title>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .input-group {
+            text-align: left;
+            margin: 15px 0;
+        }
+        .input-group label {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid gold;
+            background: #292929;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+        }
+        .btn {
+            background: gold;
+            color: black;
+            padding: 14px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background: #ffd700;
+            box-shadow: 0 0 15px gold;
+            transform: scale(1.05);
+        }
+        .preview-container {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            background: #292929;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+        }
+        .preview-container img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>แจ้งการโอนเงิน</h1>
+
+        <div class="input-group">
+            <label for="order-id">หมายเลขคำสั่งซื้อ</label>
+            <input type="text" id="order-id" readonly>
+        </div>
+
+        <div class="input-group">
+            <label for="amount">จำนวนเงินที่โอน (บาท)</label>
+            <input type="number" id="amount" placeholder="ระบุจำนวนเงินที่โอน">
+        </div>
+
+        <div class="input-group">
+            <label for="payment-date">วันที่โอน</label>
+            <input type="date" id="payment-date">
+        </div>
+
+        <div class="input-group">
+            <label for="proof-upload">อัปโหลดหลักฐานการโอนเงิน</label>
+            <input type="file" id="proof-upload" accept="image/*" onchange="previewImage()">
+        </div>
+
+        <div class="preview-container" id="preview-container">
+            <p>ตัวอย่างหลักฐานการโอน</p>
+            <img id="preview-image" src="#" alt="หลักฐานการโอน">
+        </div>
+
+        <button class="btn" onclick="submitPaymentProof()">ส่งหลักฐาน</button>
+    </div>
+
+    <script>
+        // รับหมายเลขคำสั่งซื้อจาก URL และแสดงบนหน้า
+        function getOrderIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("orderId");
+        }
+
+        function displayOrderId() {
+            const orderId = getOrderIdFromURL();
+            document.getElementById("order-id").value = orderId ? orderId : "ไม่พบหมายเลขคำสั่งซื้อ";
+        }
+
+        function previewImage() {
+            let fileInput = document.getElementById("proof-upload");
+            let previewContainer = document.getElementById("preview-container");
+            let previewImage = document.getElementById("preview-image");
+
+            let file = fileInput.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = "block";
+                }
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.style.display = "none";
+            }
+        }
+
+        function submitPaymentProof() {
+            let orderId = document.getElementById("order-id").value;
+            let amount = document.getElementById("amount").value;
+            let paymentDate = document.getElementById("payment-date").value;
+            let proofUpload = document.getElementById("proof-upload").files[0];
+
+            if (!orderId || !amount || !paymentDate || !proofUpload) {
+                alert("กรุณากรอกข้อมูลให้ครบทุกช่องและอัปโหลดหลักฐานการโอนเงิน");
+                return;
+            }
+
+            alert("✅ ส่งหลักฐานการโอนเงินเรียบร้อยแล้ว\nหมายเลขคำสั่งซื้อ: " + orderId);
+
+            // ล้างข้อมูลหลังจากส่ง
+            document.getElementById("amount").value = "";
+            document.getElementById("payment-date").value = "";
+            document.getElementById("proof-upload").value = "";
+            document.getElementById("preview-container").style.display = "none";
+        }
+
+        window.onload = displayOrderId;
+    </script>
+
+</body>
+</html>
