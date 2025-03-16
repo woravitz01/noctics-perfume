@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชำระเงิน - Noctics Perfume</title>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .order-id {
+            font-size: 1.4rem;
+            background: #292929;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .cart-summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .cart-summary th, .cart-summary td {
+            padding: 10px;
+            border-bottom: 1px solid #444;
+        }
+        .input-group {
+            text-align: left;
+            margin: 15px 0;
+        }
+        .input-group label {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid gold;
+            background: #292929;
+            color: white;
+            font-size: 1rem;
+        }
+        .btn {
+            background: gold;
+            color: black;
+            padding: 14px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background: #ffd700;
+            box-shadow: 0 0 15px gold;
+            transform: scale(1.05);
+        }
+        .qr-container {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            background: #292929;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .qr-container img {
+            width: 200px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>สรุปรายการสั่งซื้อ</h1>
+
+        <div class="order-id">หมายเลขคำสั่งซื้อ: <span id="order-id"></span></div>
+
+        <div class="cart-summary">
+            <table>
+                <thead>
+                    <tr>
+                        <th>สินค้า</th>
+                        <th>จำนวน</th>
+                        <th>ราคารวม</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- สินค้าในตะกร้าจะแสดงที่นี่ -->
+                </tbody>
+            </table>
+            <h2>ยอดรวม: <span id="total-price">0</span> บาท</h2>
+        </div>
+
+        <div class="input-group">
+            <label for="fullname">ชื่อ-นามสกุล</label>
+            <input type="text" id="fullname" placeholder="กรอกชื่อของคุณ">
+        </div>
+
+        <div class="input-group">
+            <label for="address">ที่อยู่จัดส่ง</label>
+            <input type="text" id="address" placeholder="กรอกที่อยู่ของคุณ">
+        </div>
+
+        <div class="input-group">
+            <label for="phone">เบอร์โทรศัพท์</label>
+            <input type="text" id="phone" placeholder="กรอกเบอร์โทรศัพท์">
+        </div>
+
+        <div class="input-group">
+            <label for="payment-method">วิธีการชำระเงิน</label>
+            <select id="payment-method" onchange="toggleQRCode()">
+                <option value="" selected>เลือกการชำระเงิน</option>
+                <option value="โอนเงิน">โอนเงินผ่านธนาคาร</option>
+                <option value="ปลายทาง">ชำระเงินปลายทาง</option>
+            </select>
+        </div>
+
+        <div class="qr-container" id="qr-code">
+            <p>สแกน QR Code เพื่อโอนเงิน</p>
+            <img src="assets/qr_code.png" alt="QR Code สำหรับโอนเงิน">
+            <p>โปรดแจ้งหลักฐานการโอนเงินหลังชำระ</p>
+            <a id="proof-link" href="#" class="btn">แจ้งการโอนเงิน</a>
+        </div>
+
+        <button class="btn" onclick="confirmOrder()">ยืนยันการสั่งซื้อ</button>
+    </div>
+
+    <script>
+        function generateOrderId() {
+            let orderId = "NP" + Math.floor(100000 + Math.random() * 900000); 
+            document.getElementById("order-id").textContent = orderId;
+            localStorage.setItem("orderId", orderId);
+        }
+
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartItemsContainer = document.getElementById("cart-items");
+            let totalPriceContainer = document.getElementById("total-price");
+            let totalAmount = 0;
+            cartItemsContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<tr><td colspan='3'>ไม่มีสินค้าในตะกร้า</td></tr>";
+                return;
+            }
+
+            cart.forEach((item) => {
+                let itemRow = document.createElement("tr");
+                itemRow.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.totalPrice} บาท</td>
+                `;
+                cartItemsContainer.appendChild(itemRow);
+                totalAmount += item.totalPrice;
+            });
+
+            totalPriceContainer.textContent = totalAmount;
+        }
+
+        function toggleQRCode() {
+            let paymentMethod = document.getElementById("payment-method").value;
+            let qrContainer = document.getElementById("qr-code");
+            let orderId = localStorage.getItem("orderId");
+            let proofLink = document.getElementById("proof-link");
+
+            qrContainer.style.display = paymentMethod === "โอนเงิน" ? "block" : "none";
+            proofLink.href = `upload_proof.html?orderId=${orderId}`;
+        }
+
+        function confirmOrder() {
+            let fullname = document.getElementById("fullname").value;
+            let address = document.getElementById("address").value;
+            let phone = document.getElementById("phone").value;
+            let paymentMethod = document.getElementById("payment-method").value;
+            let orderId = localStorage.getItem("orderId");
+
+            if (!fullname || !address || !phone || paymentMethod === "") {
+                alert("กรุณากรอกข้อมูลให้ครบทุกช่อง และเลือกวิธีการชำระเงิน");
+                return;
+            }
+
+            alert("✅ คำสั่งซื้อของคุณได้รับการยืนยัน!\nหมายเลขคำสั่งซื้อ: " + orderId);
+
+            localStorage.removeItem("cart");
+
+            window.location.href = paymentMethod === "โอนเงิน" ? `upload_proof.html?orderId=${orderId}` : "index.html";
+        }
+
+        window.onload = function() {
+            generateOrderId();
+            loadCart();
+        };
+    </script>
+
+</body>
+</html>
