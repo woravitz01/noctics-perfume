@@ -100,8 +100,11 @@
         <div class="purchase-container">
             <div class="quantity-selector">
                 <label for="quantity">จำนวน:</label>
-                <input type="number" id="quantity" name="quantity" min="1" value="1">
+                <input type="number" id="quantity" name="quantity" min="1" value="1" oninput="updateTotalPrice()">
             </div>
+
+            <!-- แสดงราคาสินค้า -->
+            <h3 id="total-price">ราคา: 129 บาท</h3>  <!-- แสดงราคาทั้งหมด -->
             <button class="btn" onclick="addToCart()">เพิ่มในตะกร้า</button>
         </div>
         
@@ -112,24 +115,38 @@
     </div>
     
     <script>
+        // ฟังก์ชันสำหรับเพิ่มสินค้าในตะกร้า
         function addToCart() {
             let quantity = document.getElementById("quantity").value;
+            let price = 129;  // เปลี่ยนราคาต่อขวดเป็น 129
+            let totalPrice = price * quantity;  // คำนวณราคารวม
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             
             let product = {
                 name: "Margarita Verde",
-                quantity: parseInt(quantity)
+                quantity: parseInt(quantity),
+                price: price,
+                totalPrice: totalPrice
             };
             
             let existingProduct = cart.find(item => item.name === product.name);
             if (existingProduct) {
                 existingProduct.quantity += product.quantity;
+                existingProduct.totalPrice += product.totalPrice;
             } else {
                 cart.push(product);
             }
             
             localStorage.setItem("cart", JSON.stringify(cart));
-            alert("คุณได้เลือก Margarita Verde " + quantity + " ขวด");
+            alert("คุณได้เลือก Margarita Verde " + quantity + " ขวด ราคา " + totalPrice + " บาท");
+        }
+
+        // ฟังก์ชันสำหรับอัปเดตราคาตามจำนวน
+        function updateTotalPrice() {
+            let quantity = document.getElementById("quantity").value;
+            let price = 129;  // เปลี่ยนราคาต่อขวดเป็น 129
+            let totalPrice = price * quantity;
+            document.getElementById("total-price").innerText = totalPrice + " บาท";  // อัปเดตราคา
         }
     </script>
 </body>
