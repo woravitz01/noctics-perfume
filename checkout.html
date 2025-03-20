@@ -33,7 +33,6 @@
             border-radius: 8px;
             margin-bottom: 20px;
             display: inline-block;
-            transition: all 0.3s ease;
         }
         .cart-summary table {
             width: 100%;
@@ -115,7 +114,8 @@
                     <!-- สินค้าในตะกร้าจะแสดงที่นี่ -->
                 </tbody>
             </table>
-            <h2>ยอดรวม: <span id="total-price">0</span> บาท</h2>
+            <h3>ค่าจัดส่ง: <span id="shipping-cost">0</span> บาท</h3>
+            <h2>ยอดรวมทั้งหมด: <span id="final-total">0</span> บาท</h2>
         </div>
 
         <div class="input-group">
@@ -162,8 +162,9 @@
         function loadCart() {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             let cartItemsContainer = document.getElementById("cart-items");
-            let totalPriceContainer = document.getElementById("total-price");
+            let totalPriceContainer = document.getElementById("final-total");
             let totalAmount = 0;
+            let shippingCost = 0; // ค่าส่ง 0 บาท
             cartItemsContainer.innerHTML = '';
 
             if (cart.length === 0) {
@@ -182,7 +183,8 @@
                 totalAmount += item.totalPrice;
             });
 
-            totalPriceContainer.textContent = totalAmount;
+            document.getElementById("shipping-cost").textContent = shippingCost;
+            totalPriceContainer.textContent = totalAmount + shippingCost;
         }
 
         function toggleQRCode() {
@@ -222,3 +224,4 @@
 
 </body>
 </html>
+
