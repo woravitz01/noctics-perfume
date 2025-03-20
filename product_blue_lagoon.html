@@ -76,6 +76,73 @@
             box-shadow: 0 0 15px gold;
             transform: scale(1.05);
         }
+
+        /* ปรับปรุงดีไซน์ของตัวเลือกขนาด */
+        select {
+            font-size: 1rem;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid gold;
+            background-color: #1a1a1a;
+            color: white;
+            width: 200px;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        select:hover {
+            background-color: #292929;
+            transform: scale(1.05);
+        }
+
+        /* สำหรับการปรับแต่งให้เหมาะสมกับหน้าจอมือถือ */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem; /* ปรับขนาดของหัวข้อ */
+            }
+
+            .description {
+                font-size: 1rem; /* ปรับขนาดฟอนต์ในส่วนของคำอธิบาย */
+                padding: 15px;
+            }
+
+            .purchase-container {
+                flex-direction: column; /* ให้ช่องกรอกข้อมูลและปุ่มสั่งซื้อเป็นแนวตั้ง */
+                gap: 10px;
+            }
+
+            .quantity-selector input {
+                width: 100%; /* ปรับความกว้างของช่องกรอกข้อมูลให้เต็มความกว้าง */
+            }
+
+            .btn {
+                font-size: 1rem; /* ลดขนาดฟอนต์ในปุ่ม */
+                padding: 12px 25px; /* ปรับขนาดของปุ่มให้เหมาะสม */
+            }
+
+            select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-image {
+                max-width: 100%; /* ปรับขนาดของรูปภาพให้เหมาะสมกับมือถือ */
+            }
+
+            h1 {
+                font-size: 1.5rem; /* ปรับขนาดหัวข้อให้เหมาะสมกับหน้าจอขนาดเล็ก */
+            }
+
+            .description {
+                font-size: 0.9rem; /* ลดขนาดฟอนต์ */
+            }
+
+            .quantity-selector input {
+                width: 80%; /* ปรับขนาดให้เหมาะสม */
+                margin: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -97,17 +164,24 @@
         
         <div class="purchase-container">
             <div class="quantity-selector">
+                <label for="size">ขนาด:</label>
+                <select id="size" onchange="updatePrice()">
+                    <option value="129">10 ml (ราคา 129 บาท)</option>
+                    <option value="239">30 ml (ราคา 239 บาท)</option>
+                </select>
+            </div>
+
+            <div class="quantity-selector">
                 <label for="quantity">จำนวน:</label>
                 <input type="number" id="quantity" name="quantity" min="1" value="1" oninput="updateTotalPrice()">
             </div>
 
-            <!-- แสดงราคาสินค้า -->
             <h3 id="total-price">ราคา: 129 บาท</h3>  <!-- แสดงราคาทั้งหมด -->
             <button class="btn" onclick="addToCart()">เพิ่มในตะกร้า</button>
         </div>
         
         <div class="btn-container">
- <a href="shop.html" class="btn" style="background: gray; color: white;">กลับไปหน้าหลัก</a>
+            <a href="shop.html" class="btn" style="background: gray; color: white;">สำรวจสินค้าเพิ่มเติม</a>
             <a href="cart.html" class="btn" style="background: #b28e4a; color: white; padding: 14px 30px; font-size: 1.2rem; border-radius: 30px; box-shadow: 0 4px 20px rgba(178, 142, 74, 0.5); text-decoration: none;">ตรวจสอบสินค้าของคุณ</a>
         </div>
     </div>
@@ -116,7 +190,7 @@
         // ฟังก์ชันสำหรับเพิ่มสินค้าในตะกร้า
         function addToCart() {
             let quantity = document.getElementById("quantity").value;
-            let price = 129;  // เปลี่ยนราคาต่อขวดเป็น 129
+            let price = parseInt(document.getElementById("size").value);  // ราคาให้ดึงจากตัวเลือกขนาด
             let totalPrice = price * quantity;  // คำนวณราคารวม
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             
@@ -142,9 +216,14 @@
         // ฟังก์ชันสำหรับอัปเดตราคาตามจำนวน
         function updateTotalPrice() {
             let quantity = document.getElementById("quantity").value;
-            let price = 129;  // เปลี่ยนราคาต่อขวดเป็น 129
+            let price = parseInt(document.getElementById("size").value);  // ราคาให้ดึงจากตัวเลือกขนาด
             let totalPrice = price * quantity;
             document.getElementById("total-price").innerText = totalPrice + " บาท";  // อัปเดตราคา
+        }
+
+        // ฟังก์ชันอัปเดตราคาตามขนาดที่เลือก
+        function updatePrice() {
+            updateTotalPrice();
         }
     </script>
 </body>
